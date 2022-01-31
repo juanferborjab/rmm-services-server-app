@@ -1,7 +1,7 @@
 package com.ninjarmm.app.entity.device;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.ninjarmm.app.entity.service.Serve;
+import com.ninjarmm.app.entity.Customer;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
@@ -20,7 +20,8 @@ public class Device {
     private long id_device;
     @Size(max = 200)
     private String systemName;
-    @Size(max = 200)
+
+    @Enumerated(EnumType.STRING)
     private DeviceType type;
 
     private Double cost = 4.0;
@@ -38,15 +39,15 @@ public class Device {
     }
 
     public Device() {
-        
+
     }
 
-    public long getId_device() {
-        return this.id_device;
+    public long getIdDevice() {
+        return this.idDevice;
     }
 
-    public void setId_device(long id) {
-        this.id_device = id;
+    public void setIdDevice(long id) {
+        this.idDevice = id;
     }
 
     public String getSystemName() {

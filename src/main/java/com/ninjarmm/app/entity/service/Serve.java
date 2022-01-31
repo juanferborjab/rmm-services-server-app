@@ -1,11 +1,12 @@
 package com.ninjarmm.app.entity.service;
-import com.ninjarmm.app.entity.device.Device;
-
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.ninjarmm.app.entity.Customer;
 import javax.persistence.*;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.util.Set;
 
 @Entity
 @Table(
@@ -16,25 +17,37 @@ public class Serve {
     @GeneratedValue(
             strategy = GenerationType.IDENTITY
     )
-    private long id_service;
+    private long idServe;
     @Size(max = 100)
     private String name;
     @NotBlank
     private double cost;
 
+
+    @Enumerated(EnumType.STRING)
     private ServeType type;
 
-    @ManyToOne
-    @JoinColumn(name="id_device", nullable=false)
-    Device device; // Bidirectional
+    @ManyToMany(fetch = FetchType.EAGER,
+            mappedBy = "serves")
+    @JsonIgnore
+   private Set<Customer> customers;
 
-
-     public long getId_service() {
-        return this.id_service;
+    public Serve() {
     }
 
-    public void setId_service(long id) {
-        this.id_service = id;
+    public Serve(long idServe, String name, double cost, ServeType type) {
+        this.idServe = idServe;
+        this.name = name;
+        this.cost = cost;
+        this.type = type;
+    }
+
+    public long getIdServe() {
+        return this.idServe;
+    }
+
+    public void setIdServe(long id) {
+        this.idServe = id;
     }
 
     public String getName() {
@@ -59,6 +72,14 @@ public class Serve {
 
     public void setType(ServeType type) {
         this.type = type;
+    }
+
+    public Set<Customer> getCustomers() {
+        return customers;
+    }
+
+    public void setCustomers(Set<Customer> customers) {
+        this.customers = customers;
     }
 }
 
