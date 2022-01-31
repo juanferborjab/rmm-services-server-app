@@ -5,37 +5,34 @@ import com.ninjarmm.app.entity.Customer;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
-import java.util.HashSet;
-import java.util.Set;
 
 @Entity
-@Table(
-        name = "device"
-)
+@Table(name = "device")
 public class Device {
     @Id
-    @GeneratedValue(
-            strategy = GenerationType.IDENTITY
-    )
-    private long id_device;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long idDevice;
+
     @Size(max = 200)
     private String systemName;
 
     @Enumerated(EnumType.STRING)
     private DeviceType type;
 
+   @ManyToOne(targetEntity = Customer.class, fetch = FetchType.EAGER)
+   @JoinColumn(name="idCustomer", nullable=false)
+   @JsonIgnore
+   private Customer customer;
+
+   @Column (name="idCustomer", insertable = false, updatable = false)
+   private long idCustomer;
+
     private Double cost = 4.0;
 
-    @JsonIgnore
-    @OneToMany(mappedBy="device")
-    private Set<Serve> servis = new HashSet<>();
-
-
-
-    public Device(String systemName, DeviceType type) {
+    public Device(Customer customer, String systemName, DeviceType type) {
+        this.customer = customer;
         this.systemName = systemName;
         this.type = type;
-
     }
 
     public Device() {
@@ -73,9 +70,6 @@ public class Device {
     public void setCost(Double cost) {
         this.cost = cost;
     }
-
-
-
 
 }
 

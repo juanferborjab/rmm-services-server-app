@@ -21,5 +21,9 @@ public enum DeviceType {
         return this.serveTypesAllowed;
     }
 
+    public boolean isAllowedServiceType(ServeType serveType){
+        return serveTypesAllowed.contains(serveType);
+    }
+
 }
 
